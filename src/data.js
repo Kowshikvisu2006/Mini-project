@@ -29,18 +29,71 @@ const svgCache = {};
 const FALLBACK = {};
 /* Search keyword for each product photo. To use your own photo, put a URL in IMG below, e.g. IMG.p1 = 'images/tshirt.jpg' */
 const KW = {p1:'tshirt',p2:'teddybear',p3:'toycar',p4:'toyblocks',p5:'storybook',p6:'crayons',p7:'schoolbag',p8:'waterbottle',p9:'sneakers',p10:'smartphone',p11:'headphones',p12:'cricketbat',p13:'tshirt',p14:'backpack',p15:'mathematics,book',p16:'smartwatch',p17:'laptop',p18:'saree',p19:'kurta',p20:'blender',p21:'sunglasses',p22:'perfume',p23:'yogamat',p24:'cookware',p25:'bloodpressure',p26:'eyeglasses',p27:'walkingstick',p28:'book',p29:'protein',p30:'kurta'};
-const IMG = {};
+const IMG = {
+  p1: '/images/tshirt.webp',
+  p2: '/images/teddy.webp',
+  p3: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=900&q=80',
+  p4: '/images/letter-blocks.webp',
+  p5: '/images/panchatantra.webp',
+  p6: '/images/crayons.webp',
+  p7: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=80',
+  p8: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=900&q=80',
+  p9: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80',
+  p10: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80',
+  p11: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=900&q=80',
+  p12: '/images/cricket-bat.webp',
+  p13: '/images/graphic-shirt.webp',
+  p14: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=80',
+  p15: '/images/jee-book.webp',
+  p16: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80',
+  p17: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=80',
+  p18: '/images/saree.avif',
+  p19: '/images/shirt-product.webp',
+  p20: '/images/mixer-product.jpg',
+  p21: '/images/sunglasses.webp',
+  p22: '/images/beauty-makeup.webp',
+  p23: '/images/yoga-mat.webp',
+  p24: '/images/cooker-product.jpg',
+  p25: '/images/bpmonitor.webp',
+  p26: '/images/reading-glasses.webp',
+  p27: '/images/walking-stick.webp',
+  p28: '/images/bhagavad-gita.webp',
+  p29: '/images/ensure-high-protein-milk-chocolate-440-x-4251.png',
+  p30: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80',
+  p31: '/images/perfume-new.jpg',
+  p32: '/images/kadai-product.jpg'
+};
 function photoUrl(p){
   if(IMG[p.id]) return IMG[p.id];
-  const n = parseInt(p.id.replace(/\D/g,''),10) || 1;
-  return 'https://loremflickr.com/480/480/'+encodeURIComponent(KW[p.id]||p.cat)+'?lock='+(n*7+3);
+  const defaults = {
+    tshirt: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80',
+    teddy: 'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=900&q=80',
+    car: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=900&q=80',
+    blocks: 'https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=900&q=80',
+    book: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=900&q=80',
+    bottle: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=900&q=80',
+    sneaker: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80',
+    phone: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80',
+    headphones: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=900&q=80',
+    watch: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80',
+    laptop: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=80',
+    bag: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=80',
+    perfume: 'https://images.unsplash.com/photo-1528740561666-dc2479dc08ab?auto=format&fit=crop&w=900&q=80',
+    mat: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=900&q=80',
+    cooker: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=80',
+    bpmon: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=900&q=80',
+    glasses: 'https://images.unsplash.com/photo-1577803947579-9f90f4d6b353?auto=format&fit=crop&w=900&q=80',
+    kurta: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80',
+    saree: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80'
+  };
+  return defaults[p.shape] || 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=900&q=80';
 }
 window.__fb = function(el,id){ el.onerror = null; el.outerHTML = FALLBACK[id] || ''; };
 export function svgFor(p){
   if(!svgCache[p.id]){
     const label = p.name.replace(/"/g,'');
     FALLBACK[p.id] = '<svg viewBox="0 0 200 200" role="img" aria-label="'+label+'" xmlns="http://www.w3.org/2000/svg"><ellipse cx="100" cy="188" rx="58" ry="6" fill="#000" opacity=".08"/>'+SH[p.shape](p.c,p.a)+'</svg>';
-    svgCache[p.id] = '<img src="'+photoUrl(p)+'" alt="'+label+'" loading="lazy" onerror="window.__fb(this,\''+p.id+'\')">';
+    svgCache[p.id] = '<img src="'+photoUrl(p)+'" alt="'+label+'" loading="lazy" style="object-fit:cover; width:100%; height:100%;" onerror="window.__fb(this,\''+p.id+'\')">';
   }
   return svgCache[p.id];
 }
@@ -48,6 +101,8 @@ export function svgFor(p){
 /* ---------- sample catalogue (fictional brands, illustrative INR prices) ---------- */
 const P=(id,name,brand,cat,shape,c,a,price,mrp,rating,reviews,desc)=>({id,name,brand,cat,shape,c,a,price,mrp,rating,reviews,desc});
 export const PRODUCTS=[
+  P('p32','Cast Iron Kadai with Glass Lid','KitchenPro','Home & Kitchen','cooker','#1f1f1f','#dfe6eb',2000,2999,4.4,7310,'Heavy-duty cast iron kadai with a tempered glass lid for even cooking and easy monitoring.'),
+  P('p31','Blue Ocean Perfume, 100 ml','Blue Aura','Beauty','perfume','#1e88e5','#f5f7ff',1499,2499,4.4,5120,'Refreshing marine fragrance with a cool citrus burst and a fresh aquatic finish.'),
   P('p1','Cotton T-Shirt, Pack of 2','Bubbly','Fashion','tshirt','#ff7043','#ffd54f',399,799,4.2,8421,'Soft combed cotton that stays comfortable all day. Machine washable and colour-fast.'),
   P('p2','Soft Teddy Bear, 60 cm','CuddleCo','Toys & Baby','teddy','#c68642','#f3d9b1',549,1199,4.5,12940,'Plush toy with safe, non-toxic stuffing. Surface washable.'),
   P('p3','Remote Control Racing Car','ZoomBox','Toys & Baby','car','#e53935','#ffd600',1299,2499,4.1,5310,'Rechargeable 2.4 GHz remote car with shock-absorbing wheels.'),
